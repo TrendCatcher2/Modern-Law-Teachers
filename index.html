@@ -1166,6 +1166,7 @@ function fileToBase64(file) {
 }
 
 function renderImageUpload(fieldId, currentValue, sizeClass = 'square') {
+  const aiBtn = renderFieldAIAssist(fieldId);
   const hasImage = currentValue && currentValue.length > 10;
   return `
     <div class="img-upload ${sizeClass} ${hasImage ? 'has-image' : ''}" data-field="${fieldId}" onclick="triggerImgUpload('${fieldId}')">
@@ -1215,6 +1216,7 @@ function removeImg(fieldId) {
 
 // Link picker helper
 function renderLinkPicker(fieldId, cardType, selected = []) {
+  const aiBtn = renderFieldAIAssist(fieldId);
   const records = getRecords(cardType);
   const selectedHtml = selected.map(id => {
     const rec = records.find(r => r.id === id);
@@ -1225,6 +1227,7 @@ function renderLinkPicker(fieldId, cardType, selected = []) {
   
   return `
     <div class="link-picker" data-field="${fieldId}" data-cardtype="${cardType}">
+      <label style="font-size:12px;color:var(--text-muted);margin-bottom:4px;display:block">Select records to link${aiBtn}</label>
       <div class="linked-items">${selectedHtml || '<span class="info-note">No records linked</span>'}</div>
       <button class="btn btn-sm btn-secondary" style="margin-top:6px" onclick="toggleLinkPicker('${fieldId}')">+ Link ${cardType}</button>
       <div class="link-picker-dropdown" id="lpd_${fieldId}">
@@ -1610,9 +1613,10 @@ function field(label, name, value = '', type = 'text', opts = {}) {
   const full = opts.full ? ' full' : '';
   const placeholder = opts.placeholder ? `placeholder="${opts.placeholder}"` : '';
   const note = opts.note ? `<span class="info-note">${opts.note}</span>` : '';
+  const aiBtn = renderFieldAIAssist(name);
   
   if (type === 'textarea') {
-    return `<div class="field${full}"><label>${label} ${req}</label><textarea data-field="${name}" ${placeholder}>${value || ''}</textarea>${note}</div>`;
+    return `<div class="field${full}"><label>${label} ${req}${aiBtn}</label><textarea data-field="${name}" ${placeholder}>${value || ''}</textarea>${note}</div>`;
   }
   if (type === 'select') {
     const options = (opts.options || []).map(o => {
@@ -1620,21 +1624,22 @@ function field(label, name, value = '', type = 'text', opts = {}) {
       const lbl = typeof o === 'string' ? o : o.label;
       return `<option value="${val}" ${value === val ? 'selected' : ''}>${lbl}</option>`;
     }).join('');
-    return `<div class="field${full}"><label>${label} ${req}</label><select data-field="${name}"><option value="">Select...</option>${options}</select>${note}</div>`;
+    return `<div class="field${full}"><label>${label} ${req}${aiBtn}</label><select data-field="${name}"><option value="">Select...</option>${options}</select>${note}</div>`;
   }
   if (type === 'number') {
-    return `<div class="field${full}"><label>${label} ${req}</label><input type="number" data-field="${name}" value="${value || ''}" ${placeholder} ${opts.min !== undefined ? 'min="'+opts.min+'"' : ''} ${opts.max !== undefined ? 'max="'+opts.max+'"' : ''}>${note}</div>`;
+    return `<div class="field${full}"><label>${label} ${req}${aiBtn}</label><input type="number" data-field="${name}" value="${value || ''}" ${placeholder} ${opts.min !== undefined ? 'min="'+opts.min+'"' : ''} ${opts.max !== undefined ? 'max="'+opts.max+'"' : ''}>${note}</div>`;
   }
   if (type === 'date') {
-    return `<div class="field${full}"><label>${label} ${req}</label><input type="date" data-field="${name}" value="${value || ''}">${note}</div>`;
+    return `<div class="field${full}"><label>${label} ${req}${aiBtn}</label><input type="date" data-field="${name}" value="${value || ''}">${note}</div>`;
   }
-  return `<div class="field${full}"><label>${label} ${req}</label><input type="${type}" data-field="${name}" value="${value || ''}" ${placeholder}>${note}</div>`;
+  return `<div class="field${full}"><label>${label} ${req}${aiBtn}</label><input type="${type}" data-field="${name}" value="${value || ''}" ${placeholder}>${note}</div>`;
 }
 
 function chipGroup(label, name, options, selected = []) {
+  const aiBtn = renderFieldAIAssist(name);
   return `
     <div class="field full">
-      <label>${label}</label>
+      <label>${label}${aiBtn}</label>
       <div class="chip-group" data-field="${name}">
         ${options.map(o => `<span class="chip ${selected.includes(o) ? 'selected' : ''}" data-value="${o}" onclick="this.classList.toggle('selected')">${o}</span>`).join('')}
       </div>
@@ -1647,9 +1652,10 @@ function groupHeader(title) {
 }
 
 function repeatableField(label, name, items = [], subfields = []) {
+  const aiBtn = renderFieldAIAssist(name);
   return `
     <div class="field full">
-      <label>${label}</label>
+      <label>${label}${aiBtn}</label>
       <div class="repeatable-list" data-field="${name}">
         ${items.map((item, i) => `
           <div class="repeatable-item">
@@ -1680,9 +1686,10 @@ function addRepeatableItem(fieldName, subfields) {
 }
 
 function toggleField(label, name, checked = false) {
+  const aiBtn = renderFieldAIAssist(name);
   return `
     <div class="field">
-      <label>${label}</label>
+      <label>${label}${aiBtn}</label>
       <div class="field-row">
         <label class="toggle">
           <input type="checkbox" data-field="${name}" ${checked ? 'checked' : ''}>
