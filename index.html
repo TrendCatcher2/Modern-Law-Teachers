@@ -720,22 +720,72 @@ const SITES = [
 const F = (l, v, t, o, w) => ({ l, v, t: t || "text", o: o || null, w: !!w });
 const SECTIONS = [
 { id:"student-class", name:"Student Class", icon:"students", group:"top",
-desc:"The class roster, composition, rapport and files for the course you teach.",
+desc:"The class roster, composition, curriculum linkage, rapport and files for the course you teach.",
 fields:[
+/* ─────────── Identity ─────────── */
 F("Class title","LLB-3A — Constitutional Law I"),
 F("Programme","LLB (5-Year)","select",["LLB (5-Year)","LLB (3-Year)","LLM"]),
 F("Semester","Semester 5","select",["Semester 1","Semester 3","Semester 5","Semester 7","Semester 9"]),
-F("Section","Section A"),F("Academic year","2025–2026"),
+F("Section","Section A"),
+F("Academic year","2025–2026"),
 F("Linked course","LAW-301 Constitutional Law I"),
-F("Total enrolled","46","number"),F("Male students","27","number"),F("Female students","19","number"),
-F("Class representative","Gul Hassan Baloch"),F("CR contact","+92 333 776 4120"),
-F("Average attendance","88","number"),F("Class timing","Mon/Wed/Fri · 09:00–10:00"),
-F("Room / hall","Law Block — Hall 2"),F("Top performer","Mahnoor Karim — 89%"),
+
+/* ─────────── CLASS STRUCTURE (new) ─────────── */
+F("Teaching mode","Lecture, Tutorial","textarea",null,false),
+F("Weekly class days","Monday, Wednesday, Friday","textarea",null,false),
+F("Class duration per session (mins)","60","number"),
+F("Total sessions this semester","48","number"),
+F("Sessions completed to date","22","number"),
+F("Co-teacher / TA","Mr. Imran Rind (tutorial support)"),
+
+/* ─────────── ROSTER (new) ─────────── */
+F("Student roster (linked profiles)","1. Mansoor Ahmed Baloch — UOT-LLB-2023-084\n2. Mahnoor Karim — UOT-LLB-2023-019\n3. Gul Hassan Baloch — UOT-LLB-2023-041\n…","textarea",null,true),
+F("Enrolled count (auto)","46","number"),
+F("Male students (override)","27","number"),
+F("Female students (override)","19","number"),
+F("Withdrawals / transfers this semester","1 — Sana Ullah (medical transfer)","textarea",null,false),
+F("Waitlisted students","3","number"),
+
+/* ─────────── Contact & Logistics (kept) ─────────── */
+F("Class representative","Gul Hassan Baloch"),
+F("CR contact","+92 333 776 4120"),
+F("Class timing","Mon/Wed/Fri · 09:00–10:00"),
+F("Room / hall","Law Block — Hall 2"),
+
+/* ─────────── Attendance & Performance (kept + expanded) ─────────── */
+F("Average attendance","88","number"),
+F("Top performer","Mahnoor Karim — 89%"),
 F("Students needing support","Faraz Ali, Bibi Zainab (attendance + assignments)","textarea",null,true),
+
+/* ─────────── ASSESSMENT STRUCTURE (new / expanded) ─────────── */
+F("Assessment breakdown","1. Quiz 1 — 10% — 2026-02-03\n2. Mid-term — 30% — 2026-03-10\n3. Presentation — 10% — 2026-04-15\n4. Final exam — 50% — 2026-05-20","textarea",null,true),
+F("Grading scheme used","HEC 4.0 scale — A (85+), B+ (75–84), B (65–74), C (55–64), D (50–54), F (<50)","textarea",null,true),
+F("Last assessment average","71","number"),
+F("Pass percentage this class","87","number"),
+F("Next assessment","2026-02-18","date"),
+F("Attendance trend","Week 1: 95% · Week 2: 92% · Week 3: 89% · Week 4: 88% · Week 5: 86% · Week 6: 88% — stable, above 75% eligibility threshold","textarea",null,true),
+
+/* ─────────── CURRICULUM LINK (new) ─────────── */
+F("Linked syllabus","LAW-301 Constitutional Law I (Syllabus card)"),
+F("Topics covered to date","1. Sources of the Constitution\n2. Salient features of the 1973 Constitution\n3. Fundamental Rights (Arts. 8–28) — in progress","textarea",null,true),
+F("Topics remaining","4. Federalism & distribution of powers\n5. The Judiciary & judicial review\n6. Emergency provisions","textarea",null,true),
+F("Case law / statutes covered this class","Constitution of Pakistan 1973 · Shehla Zia v WAPDA · Asma Jilani v Govt of Punjab · Benazir Bhutto v Federation","textarea",null,true),
+
+/* ─────────── SOURCE & CITATION (new) ─────────── */
+F("Prescribed textbook(s)","Hamid Khan — Constitutional and Political History of Pakistan (3rd ed., 2022)","textarea",null,false),
+F("Reading list source","University-issued (HEC-approved curriculum)","select",["University-issued","Self-compiled","Hybrid"]),
+F("Reference material version / year","2022–2024 editions only; older citations require approval"),
+
+/* ─────────── CLASS HEALTH (expanded) ─────────── */
 F("Class rapport","Good","select",["Excellent","Good","Fair","Needs work"]),
 F("General attitude","Engaged and participative; strong in discussion-based sessions","textarea",null,true),
-F("Last assessment average","71","number"),F("Next assessment","2026-02-18","date"),
-F("Class photo (image)","","upload"),F("Class roster (PDF)","","upload"),
+F("Attendance defaulters (auto)","Faraz Ali (68%) · Bibi Zainab (71%) — both below 75% threshold","textarea",null,true),
+F("At-risk students (auto-suggest)","Bibi Zainab (CGPA 2.1 + low attendance) · Faraz Ali (missed 2 quizzes)","textarea",null,true),
+F("Disciplinary flags this semester","0","number"),
+
+/* ─────────── Files & Remarks (kept) ─────────── */
+F("Class photo (image)","","upload"),
+F("Class roster (PDF)","","upload"),
 F("Remarks","Cohort responds well to case-method teaching; introduce more moot-style debate","textarea",null,true)
 ]},
 { id:"syllabus", name:"Syllabus", icon:"syllabus", group:"top",
