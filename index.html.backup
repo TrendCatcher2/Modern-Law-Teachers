@@ -1479,7 +1479,7 @@ function renderRecordEdit(type, title, rec, formRenderer) {
 }
 
 function getShareAction(type) {
-  const shareable = ['assignments']; // Only Assignments card has WhatsApp share
+  const shareable = ['lessonPlans', 'assignments', 'studentClass', 'research', 'coCurricular'];
   if (!shareable.includes(type)) return '';
   return `
     <div class="share-action" style="position:relative">
@@ -3977,12 +3977,21 @@ function sectionAIAccept(sectionName) {
   showToast('Section content inserted');
 }
 
-// ==================== LAYER 4: PER-FIELD AI ASSIST (TINY AI FOR EVERY FIELD) ====================
+// ==================== LAYER 4: PER-FIELD AI ASSIST ====================
 
 function renderFieldAIAssist(fieldName) {
-  // Tiny AI button for ALL fields - universal helper
+  // Only for eligible long-text fields
+  const eligibleFields = [
+    'objectives', 'activities', 'discussionQuestions', 'assessment', 'homework',
+    'instructions', 'modelAnswer', 'facts', 'issues', 'held', 'ratio',
+    'keyPrinciples', 'abstract', 'methodology', 'feedback', 'strengths',
+    'weaknesses', 'reflection', 'context', 'behaviour', 'concerns'
+  ];
+  
+  if (!eligibleFields.includes(fieldName)) return '';
+  
   return `
-    <button class="btn btn-sm btn-ghost field-ai-btn" onclick="fieldAIGenerate('${fieldName}')" style="padding:2px 6px;font-size:11px;margin-left:6px" title="✨ AI suggest">
+    <button class="btn btn-sm btn-ghost" onclick="fieldAIGenerate('${fieldName}')" style="padding:2px 6px;font-size:11px" title="AI suggest for this field">
       ✨
     </button>
   `;
@@ -3992,130 +4001,40 @@ function fieldAIGenerate(fieldName) {
   const fieldEl = document.querySelector(`[data-field="${fieldName}"]`);
   if (!fieldEl) return;
   
+  // Generate field-specific suggestion
   const suggestion = generateFieldSuggestion(fieldName);
   
-  if (fieldEl.tagName === 'TEXTAREA' || fieldEl.tagName === 'INPUT') {
-    fieldEl.value = suggestion;
-  }
+  // Insert as draft
+  fieldEl.value = suggestion;
   markFieldAsAIDrafted(fieldEl);
   
-  showToast('✨ AI suggestion inserted');
+  showToast('AI suggestion inserted - edit as needed');
 }
 
 function generateFieldSuggestion(fieldName) {
-  const s = {
-    // Student Class
-    title: 'Constitutional Law I - Section A',
-    classTiming: 'Mon/Wed 10:00-11:30 AM',
-    room: 'Room 204, Main Block',
-    sessionDuration: '90',
-    totalSessions: '42',
-    sessionsCompleted: '18',
-    coTeacher: 'Mr. Ahmed (TA)',
-    enrolledCount: '45',
-    maleCount: '28',
-    femaleCount: '17',
-    withdrawalCount: '2',
-    withdrawnNames: 'Ali Hassan, Fatima Noor',
-    waitlistCount: '3',
-    gradingScheme: 'University Policy 2024 - Letter grades A-F',
-    passPercentage: '78',
-    topicsRemaining: 'Fundamental Rights, Judicial Review',
-    textbooks: 'Constitutional Law by Dr. Yasin Safdar, 5th Ed.',
-    readingListSource: 'University-issued',
-    referenceVersion: '2024',
-    disciplinaryCount: '1',
-    classRapport: 'Good',
-    generalAttitude: 'Positive',
-    remarks: 'Strong engagement. Improve quiz attendance.',
-    // Lesson Plans
-    objectives: '• Understand key legal principles
-• Apply case law to scenarios
-• Analyze landmark judgments
-• Develop critical reasoning',
-    activities: '• Recap (10 mins)
-• Case discussion (30 mins)
-• Group activity (25 mins)
-• Q&A (15 mins)
-• Summary (10 mins)',
-    discussionQuestions: '• What are the key issues?
-• How does this impact practice?
-• What alternatives exist?',
-    assessment: 'Quiz on article interpretation and precedents',
-    homework: 'Read chapters 8-10. Prepare case brief for PLD 2005 SC 123',
-    differentiation: 'Extra materials for advanced students. Simplified summaries for others.',
-    introMins: '10', mainTeachingMins: '45', activityMins: '25', wrapupMins: '10',
-    textbookSource: 'Constitutional Law, Ch.5, pp.145-178',
-    additionalRef: 'PLD 2023 SC annotations',
-    deliveryVariance: 'Extended discussion by 10 mins. Quiz moved to next class.',
-    engagementLevel: 'Good',
-    whatWorked: 'Case discussion format. Active participation.',
-    whatToChange: 'More time for group work. Backup questions ready.',
-    materials: 'Whiteboard, printed cases, projector',
-    techTools: 'MS Teams, Kahoot',
-    reflection: 'Successful session. High engagement. Need structured group guidance.',
-    // Assignments
-    instructions: 'Write a legal analysis:
-1. Identify constitutional issues
-2. Apply relevant articles
-3. Cite 3+ SC judgments
-4. Critical analysis
-5. Reasoned conclusion
-Word: 2,500 | Style: OSCOLA | Format: PDF',
-    modelAnswer: 'I. Introduction
-II. Legal Framework (Art.8-28, 175)
-III. Case Analysis (PLD 1994 SC 417, etc.)
-IV. Discussion
-V. Conclusion',
-    cloMapping: 'CLO-1: Knowledge | CLO-2: Analysis | CLO-3: Communication',
-    latePolicy: '-10%/day, max 3 days',
-    submissionFormat: 'PDF',
-    resourcesAllowed: 'Open book - course materials permitted',
-    // Judgments
-    facts: 'Petitioner challenged Section X of Y Act, 2020 as violating Articles 4, 9, 25. State argued national security necessity.',
-    issues: '1. Violation of Art.25 equality?
-2. Reasonable restriction?
-3. Due process met?',
-    held: '1. Violates Art.25 (arbitrary classification)
-2. Severable - remainder operative
-3. State must amend within 6 months',
-    ratio: 'Classifications need rational nexus with objective. Arbitrary distinctions violate equality.',
-    keyPrinciples: '• Reasonable classification
-• Intelligible differentia
-• Nexus test
-• Severability',
-    // Research
-    abstract: 'Examines fundamental rights jurisprudence evolution in Pakistan (1973-2024). Doctrinal analysis reveals progressive rights expansion.',
-    methodology: 'Doctrinal: Primary sources (PLD/SCMR/YLR), statutory interpretation, comparative analysis',
-    // Observation
-    context: 'Constitutional Law lecture, Week 8',
-    behaviour: 'Attentive, detailed notes, no oral participation',
-    participationLevel: 'Low',
-    strengths: 'Note-taking, punctual, respectful',
-    concerns: 'Reluctant to speak despite understanding',
-    intervention: 'Scheduled one-on-one meeting',
-    academicTrend: 'Consistent B+, slight improvement',
-    improvement: 'Asking post-class questions',
-    followUpDate: '2024-11-15',
-    recommendedAction: 'Low-stakes participation activities',
-    // Feedback
-    actionPlan: '• Small-group discussions (3 classes)
-• Anonymous questions (month-end)
-• Office hours (weekly)',
-    // Co-curricular
-    problemAssigned: 'Art.9 violation - environmental degradation case',
-    feedback: 'Strong research, weak advocacy/time management',
-    followUp: 'Courtroom etiquette workshop',
-    default: '[✨ AI suggestion - customize as needed]'
+  const suggestions = {
+    objectives: '• Understand key legal principles\n• Apply case law to factual scenarios\n• Analyze statutory provisions\n• Develop critical thinking skills',
+    activities: '• Case discussion (30 mins)\n• Group activity (20 mins)\n• Q&A session (15 mins)',
+    instructions: 'Write a comprehensive analysis addressing the following:\n1. Identify key legal issues\n2. Apply relevant law\n3. Provide critical analysis\n4. Use proper citations',
+    facts: '[Summarize the material facts of the case]',
+    issues: '[State the legal issues to be determined]',
+    held: '[State the court\'s decision]',
+    abstract: '[Write a concise summary of the research]',
+    default: '[AI-generated suggestion - edit as needed]'
   };
-  return s[fieldName] || s.default;
+  
+  return suggestions[fieldName] || suggestions.default;
 }
+
+// ==================== VISUAL MARKERS FOR AI-DRAFTED CONTENT ====================
 
 function markFieldAsAIDrafted(fieldEl) {
   fieldEl.style.borderColor = 'var(--accent)';
   fieldEl.style.borderWidth = '2px';
   fieldEl.style.borderStyle = 'dashed';
   fieldEl.dataset.aiDrafted = 'true';
+  
+  // Remove marker when user edits
   fieldEl.addEventListener('input', function() {
     if (this.dataset.aiDrafted === 'true') {
       this.style.borderColor = '';
@@ -4125,6 +4044,7 @@ function markFieldAsAIDrafted(fieldEl) {
     }
   }, { once: true });
 }
+
 // ==================== INTEGRATION WITH EXISTING SYSTEM ====================
 
 // Modify the field() function to include per-field AI assist
