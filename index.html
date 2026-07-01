@@ -13,7 +13,6 @@
 --ink:#0A0B0E; --ink-2:#151720; --ink-3:#1F2230; --ink-4:#2A2E3F;
 --line:rgba(255,255,255,0.06); --line-2:rgba(255,255,255,0.10); --line-3:rgba(255,255,255,0.18);
 --txt:#E5E7EB; --txt-2:#9CA3AF; --txt-3:#6B7280; --txt-dim:#4B5563;
---txt-inv:#0A0B0E;
 --neon:#A855F7; --neon-2:#C084FC; --neon-soft:rgba(168,85,247,0.15); --neon-glow:rgba(168,85,247,0.4);
 --violet:#8B5CF6; --violet-2:#7C3AED;
 --emerald:#10B981; --emerald-2:#059669; --emerald-soft:rgba(16,185,129,0.15);
@@ -21,26 +20,37 @@
 --red:#EF4444; --red-soft:rgba(239,68,68,0.15);
 --blue:#3B82F6; --blue-soft:rgba(59,130,246,0.15);
 --r:14px; --r-sm:10px; --r-xs:7px;
---sh-sm:0 1px 2px rgba(0,0,0,0.4);
 --sh:0 4px 24px -4px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.4);
 --sh-lg:0 24px 80px -20px rgba(0,0,0,0.8), 0 8px 24px -8px rgba(0,0,0,0.5);
---glass:rgba(18,20,28,0.7);
 --ease:cubic-bezier(.22,1,.36,1);
+}
+[data-theme="grey"]{
+--bg:#1a1a1a; --bg-2:#202020; --card:#252525; --card-2:#2a2a2a; --card-3:#303030;
+--ink:#1a1a1a; --ink-2:#222; --ink-3:#2a2a2a; --ink-4:#333;
+--line:rgba(255,255,255,0.08); --line-2:rgba(255,255,255,0.12); --line-3:rgba(255,255,255,0.2);
+--txt:#e0e0e0; --txt-2:#b0b0b0; --txt-3:#808080; --txt-dim:#606060;
+--neon-soft:rgba(168,85,247,0.1); --emerald-soft:rgba(16,185,129,0.1);
+--amber-soft:rgba(245,158,11,0.1); --red-soft:rgba(239,68,68,0.1); --blue-soft:rgba(59,130,246,0.1);
+}
+[data-theme="light"]{
+--bg:#f8f9fa; --bg-2:#ffffff; --card:#ffffff; --card-2:#f1f3f5; --card-3:#e9ecef;
+--ink:#f1f3f5; --ink-2:#e9ecef; --ink-3:#dee2e6; --ink-4:#ced4da;
+--line:rgba(0,0,0,0.08); --line-2:rgba(0,0,0,0.12); --line-3:rgba(0,0,0,0.18);
+--txt:#212529; --txt-2:#495057; --txt-3:#868e96; --txt-dim:#adb5bd;
+--neon-soft:rgba(168,85,247,0.1); --emerald-soft:rgba(16,185,129,0.1);
+--amber-soft:rgba(245,158,11,0.1); --red-soft:rgba(239,68,68,0.1); --blue-soft:rgba(59,130,246,0.1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
 font-family:'Inter',system-ui,sans-serif;
-background:
-radial-gradient(1000px 600px at 85% -10%,rgba(168,85,247,0.08),transparent 60%),
-radial-gradient(900px 500px at -10% 110%,rgba(16,185,129,0.06),transparent 55%),
-radial-gradient(600px 400px at 50% 50%,rgba(139,92,246,0.04),transparent 70%),
-var(--bg);
+background:var(--bg);
 color:var(--txt);
 -webkit-font-smoothing:antialiased;
 line-height:1.55;
 min-height:100vh;
 overflow-x:hidden;
+transition:background .3s, color .3s;
 }
 .mono{font-family:'JetBrains Mono',monospace}
 .grotesk{font-family:'Space Grotesk',sans-serif}
@@ -60,13 +70,13 @@ padding:10px 24px;
 background:rgba(10,11,14,0.85);
 backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
 border-bottom:1px solid transparent;
-background-clip:padding-box;
 display:flex;align-items:center;justify-content:center;gap:10px;
 font-family:'JetBrains Mono',monospace;
 font-size:11px;letter-spacing:.18em;text-transform:uppercase;
 color:var(--txt-2);
 position:relative;
 }
+[data-theme="light"] .slogan{background:rgba(255,255,255,0.9);color:var(--txt-3);}
 .slogan::after{
 content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
 background:linear-gradient(90deg,transparent,var(--neon) 20%,var(--emerald) 50%,var(--violet) 80%,transparent);
@@ -86,6 +96,7 @@ background:rgba(10,11,14,0.5);
 backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 position:sticky;top:37px;z-index:90;
 }
+[data-theme="light"] .header{background:rgba(255,255,255,0.8);}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-mark{
 width:44px;height:44px;border-radius:12px;
@@ -96,7 +107,7 @@ position:relative;
 }
 .logo-mark svg{width:24px;height:24px;color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4))}
 .logo-text{display:flex;flex-direction:column;line-height:1}
-.logo-text .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;background:linear-gradient(90deg,#fff,var(--neon-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.logo-text .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;background:linear-gradient(90deg,var(--txt),var(--neon-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .logo-text .sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt-3);margin-top:3px}
 .header-nav{margin-left:auto;display:flex;gap:4px;align-items:center}
 .header-nav button{padding:8px 14px;border-radius:var(--r-xs);font-size:13px;font-weight:500;color:var(--txt-2);transition:all .2s var(--ease);display:inline-flex;align-items:center;gap:7px}
@@ -130,6 +141,7 @@ position:sticky;top:126px;
 height:calc(100vh - 126px);
 overflow-y:auto;
 }
+[data-theme="light"] .sidebar{background:var(--card-2);}
 .side-sec{
 font-family:'JetBrains Mono',monospace;
 font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
@@ -144,6 +156,7 @@ font-size:13.5px;font-weight:500;color:var(--txt-2);
 text-align:left;transition:all .18s var(--ease);
 position:relative;margin-bottom:2px;
 border:1px solid transparent;
+cursor:pointer;
 }
 .side-item svg{width:17px;height:17px;flex:none;stroke-width:1.7}
 .side-item:hover{background:var(--ink-3);color:var(--txt);border-color:var(--line)}
@@ -185,6 +198,7 @@ backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
 border-radius:16px;
 padding:22px 24px;
 }
+[data-theme="light"] .mega-in{background:rgba(255,255,255,0.9);}
 .mega-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .mega-seal{
 width:38px;height:38px;border-radius:11px;flex:none;
@@ -204,6 +218,7 @@ border:1px solid var(--line-2);
 border-radius:12px;
 transition:all .2s var(--ease);
 }
+[data-theme="light"] .mega-input-wrap{background:var(--card-2);}
 .mega-input-wrap:focus-within{
 border-color:var(--neon);
 box-shadow:0 0 0 3px var(--neon-soft),0 0 30px -10px var(--neon-glow);
@@ -235,7 +250,9 @@ border:1px solid var(--line-2);
 font-size:12px;font-weight:500;color:var(--txt-2);
 display:inline-flex;align-items:center;gap:7px;
 transition:all .18s var(--ease);
+cursor:pointer;
 }
+[data-theme="light"] .pill{background:var(--card-2);}
 .pill svg{width:13px;height:13px;stroke-width:1.9}
 .pill:hover{border-color:var(--neon);color:var(--neon-2);background:var(--neon-soft);transform:translateY(-1px)}
 .pill.active{background:var(--neon-soft);border-color:rgba(168,85,247,0.4);color:var(--neon-2)}
@@ -247,11 +264,12 @@ border-radius:12px;
 padding:0;max-height:0;overflow:hidden;
 transition:all .3s var(--ease);
 }
+[data-theme="light"] .mega-out{background:var(--card-2);}
 .mega-out.show{padding:16px 18px;max-height:500px;overflow:auto}
 .mega-out .ai-text{white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--txt)}
 .mega-out .filed{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .mega-out .filed span{font-size:12.5px;color:var(--emerald)}
-.mega-out .open-card{margin-left:auto;padding:7px 13px;border-radius:var(--r-xs);background:var(--emerald);color:#fff;font-weight:600;font-size:12px}
+.mega-out .open-card{margin-left:auto;padding:7px 13px;border-radius:var(--r-xs);background:var(--emerald);color:#fff;font-weight:600;font-size:12px;cursor:pointer}
 
 /* ============ SECTION HEADERS ============ */
 .sec-head{
@@ -289,6 +307,7 @@ padding:18px;
 transition:all .22s var(--ease);
 position:relative;
 overflow:hidden;
+cursor:pointer;
 }
 .card::before{
 content:"";position:absolute;inset:0;
@@ -482,6 +501,7 @@ transition:all .2s var(--ease);
 margin-bottom:10px;
 resize:vertical;min-height:70px;
 }
+[data-theme="light"] .broadcast-input{background:var(--card-2);}
 .broadcast-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
 .broadcast-actions{display:flex;gap:8px;flex-wrap:wrap}
 .chip-btn{
@@ -491,6 +511,7 @@ border:1px solid var(--line);
 font-size:11.5px;font-weight:500;color:var(--txt-2);
 display:inline-flex;align-items:center;gap:6px;
 transition:all .15s var(--ease);
+cursor:pointer;
 }
 .chip-btn:hover{background:var(--card-3);border-color:var(--line-3);color:var(--txt)}
 .chip-btn svg{width:12px;height:12px;stroke-width:1.9}
@@ -552,6 +573,7 @@ font-size:12.5px;font-weight:600;
 display:inline-flex;align-items:center;gap:7px;
 transition:all .18s var(--ease);
 white-space:nowrap;
+cursor:pointer;
 }
 .btn svg{width:14px;height:14px;stroke-width:2}
 .btn-neon{
@@ -619,6 +641,7 @@ backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 display:flex;flex-direction:column;align-items:center;gap:10px;
 margin-top:40px;
 }
+[data-theme="light"] .footer{background:var(--card-2);}
 .footer-brand{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt-3)}
 .footer-brand b{color:var(--neon-2);font-weight:600}
 .footer-copy{font-size:11px;color:var(--txt-dim)}
@@ -666,7 +689,7 @@ display:grid;place-items:center;
 }
 .drawer-head h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--txt)}
 .drawer-head p{font-size:12px;color:var(--txt-3);margin-top:2px}
-.drawer-head .x{margin-left:auto;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--txt-2);transition:.15s}
+.drawer-head .x{margin-left:auto;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--txt-2);transition:.15s;cursor:pointer}
 .drawer-head .x:hover{background:var(--ink-3);color:var(--txt)}
 .drawer-body{flex:1;overflow-y:auto;padding:22px}
 .drawer-foot{padding:16px 22px;border-top:1px solid var(--line);display:flex;gap:10px}
@@ -680,11 +703,12 @@ color:var(--txt);font-size:13.5px;
 transition:all .2s var(--ease);
 margin-bottom:14px;
 }
+[data-theme="light"] .in{background:var(--card-2);}
 .in:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px var(--neon-soft)}
 textarea.in{min-height:90px;resize:vertical;line-height:1.55;font-family:inherit}
 .key-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
 .key-row .in{margin-bottom:0}
-.key-row button{padding:10px 13px;border-radius:var(--r-sm);background:var(--card-2);border:1px solid var(--line);font-size:11px;font-weight:600;color:var(--txt-2);white-space:nowrap}
+.key-row button{padding:10px 13px;border-radius:var(--r-sm);background:var(--card-2);border:1px solid var(--line);font-size:11px;font-weight:600;color:var(--txt-2);white-space:nowrap;cursor:pointer}
 .key-row button:hover{background:var(--card-3);color:var(--txt)}
 .hint{font-size:11.5px;color:var(--txt-3);line-height:1.5;margin-bottom:14px}
 .warn-box{
@@ -704,6 +728,7 @@ border-radius:var(--r-sm);
 padding:14px;
 margin-top:12px;
 }
+[data-theme="light"] .key-gen-out{background:var(--card-2);}
 .key-gen-out .key-display{
 font-family:'JetBrains Mono',monospace;
 font-size:15px;font-weight:600;
@@ -737,48 +762,8 @@ font-size:11.5px;
 }
 .key-history-item .kh-key{color:var(--emerald);font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .key-history-item .kh-email{color:var(--txt-3);font-size:10px;flex:none}
-.key-history-item .kh-del{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;color:var(--txt-3);flex:none}
+.key-history-item .kh-del{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;color:var(--txt-3);flex:none;cursor:pointer}
 .key-history-item .kh-del:hover{background:var(--red-soft);color:var(--red)}
-
-/* ============ LOGIN SCREEN ============ */
-.login{
-min-height:100vh;
-display:grid;place-items:center;
-padding:32px 20px;
-position:relative;
-}
-.login::before{
-content:"";position:absolute;inset:0;
-background:
-radial-gradient(800px 500px at 20% 30%,rgba(168,85,247,0.12),transparent 60%),
-radial-gradient(700px 400px at 80% 70%,rgba(16,185,129,0.08),transparent 60%);
-pointer-events:none;
-}
-.login-card{
-width:100%;max-width:440px;
-background:var(--card);
-border:1px solid var(--line-2);
-border-radius:20px;
-padding:36px 32px;
-position:relative;
-box-shadow:var(--sh-lg);
-animation:rise .6s var(--ease) both;
-}
-.login-card::before{
-content:"";position:absolute;inset:-1px;border-radius:20px;
-background:linear-gradient(135deg,rgba(168,85,247,0.3),transparent 40%,rgba(16,185,129,0.2));
-z-index:-1;
-}
-.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.login-logo .logo-mark{width:52px;height:52px;border-radius:14px}
-.login-logo .logo-mark svg{width:28px;height:28px}
-.login-logo .brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;background:linear-gradient(90deg,#fff,var(--neon-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.login-logo .sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt-3);margin-top:3px}
-.login h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;color:var(--txt);margin-bottom:6px}
-.login p{font-size:13px;color:var(--txt-3);margin-bottom:22px}
-.login .in{margin-bottom:14px}
-.login .btn-neon{width:100%;justify-content:center;padding:12px;font-size:14px;margin-top:6px}
-.login-foot{text-align:center;margin-top:18px;font-size:11px;color:var(--txt-dim)}
 
 /* ============ TOAST ============ */
 #toast{
@@ -822,7 +807,6 @@ display:flex;align-items:center;gap:9px;
 @media(max-width:520px){
 .stats-strip{grid-template-columns:1fr}
 .mega-in{padding:18px}
-.login-card{padding:28px 22px}
 }
 </style>
 </head>
@@ -835,37 +819,8 @@ display:flex;align-items:center;gap:9px;
 <span class="trial" id="trialBadge">Free 30-Day Trial · 28 days left</span>
 </div>
 
-<!-- ============ LOGIN SCREEN ============ -->
-<section class="login" id="loginScreen">
-<div class="login-card">
-<div class="login-logo">
-<div class="logo-mark">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-<path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/>
-<path d="M9 12l2 2 4-4"/>
-</svg>
-</div>
-<div>
-<div class="brand">NEXUS</div>
-<div class="sub">AI Faculty Platform</div>
-</div>
-</div>
-<h2>Welcome back, Educator</h2>
-<p>Sign in to access your borderless command center.</p>
-<input class="in" id="loginEmail" type="email" placeholder="Email address" value="">
-<input class="in" id="loginName" type="text" placeholder="Full name" value="">
-<button class="btn btn-neon" id="loginBtn">
-Enter Platform
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-</button>
-<div class="login-foot">
-By continuing you accept the <span style="color:var(--neon-2)">Terms of Service</span> and <span style="color:var(--neon-2)">Privacy Policy</span>.
-</div>
-</div>
-</section>
-
 <!-- ============ MAIN APP ============ -->
-<div id="app" style="display:none">
+<div id="app">
 
 <!-- HEADER -->
 <header class="header">
@@ -888,10 +843,10 @@ By continuing you accept the <span style="color:var(--neon-2)">Terms of Service<
 <button data-view="grading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Grading</button>
 </nav>
 <div class="user-chip" id="userChip">
-<div class="av" id="userAv">NA</div>
+<div class="av" id="userAv">NB</div>
 <div class="uinfo">
-<div class="uname" id="userName">Nazeer Ahmed</div>
-<div class="urole" id="userRole">System Administrator</div>
+<div class="uname" id="userName">Nazeer Baloch</div>
+<div class="urole" id="userRole">Associate Professor</div>
 </div>
 </div>
 </header>
@@ -942,7 +897,7 @@ Global Search
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82 2 2 0 1 1-2.83 2.83 1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51 2 2 0 0 1-4 0 1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33 2 2 0 1 1-2.83-2.83A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1 2 2 0 0 1 0-4 1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0 .33-1.82 2 2 0 1 1 2.83-2.83A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51 2 2 0 0 1 4 0 1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33 2 2 0 1 1 2.83 2.83A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1 2 2 0 0 1 0 4 1.65 1.65 0 0 0-1.51 1z"/></svg>
 AI Providers
 </button>
-<button class="side-item admin-only" data-sec="admin">
+<button class="side-item admin-only" data-sec="admin" style="display:none">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
 Admin Utilities
 </button>
@@ -1241,7 +1196,7 @@ Sign Out
 <div class="footer-copy">© 2026 NEXUS Systems. All rights reserved. · <span style="color:var(--txt-3)">v2.4.1</span></div>
 <div class="footer-admin">
 <span>System Admin:</span>
-<a id="adminLink">Nazeer Ahmed · trendcatcher299@gmail.com</a>
+<a id="adminLink">Nazeer Baloch · trendcatcher299@gmail.com</a>
 </div>
 </footer>
 
@@ -1284,7 +1239,7 @@ Sign Out
 <div class="drawer-body">
 <div class="warn-box">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
-<span>You are logged in as <b>Nazeer Ahmed</b> (trendcatcher299@gmail.com). Root access granted — trial clocks and license keys bypassed permanently.</span>
+<span>You are logged in as <b>Nazeer Baloch</b>. Root access granted — trial clocks and license keys bypassed permanently.</span>
 </div>
 
 <span class="flbl">Key Generator Tool</span>
@@ -1329,7 +1284,7 @@ const esc=s=>String(s==null?"":s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&
 
 /* ============ ADMIN CONFIG ============ */
 const ADMIN={
-name:"Nazeer Ahmed",
+name:"Nazeer Baloch",
 email:"trendcatcher299@gmail.com"
 };
 
@@ -1406,17 +1361,8 @@ host.innerHTML=keys.map((k,i)=>`
 host.querySelectorAll(".kh-del").forEach(b=>b.addEventListener("click",()=>{deleteKey(+b.dataset.idx);renderKeyHistory();toast("Key revoked");}));
 }
 
-/* ============ LOGIN ============ */
-function handleLogin(){
-const email=document.getElementById("loginEmail").value.trim();
-const name=document.getElementById("loginName").value.trim();
-if(!email||!name){toast("Please enter name and email");return;}
-user={name,email,loggedIn:Date.now()};
-LS.set("nexus.user",JSON.stringify(user));
-enterApp();
-}
+/* ============ LOGIN / INIT ============ */
 function enterApp(){
-document.getElementById("loginScreen").style.display="none";
 document.getElementById("app").style.display="block";
 document.getElementById("userName").textContent=user.name;
 document.getElementById("userAv").textContent=initialsOf(user.name);
@@ -1429,19 +1375,14 @@ role.style.color="var(--neon-2)";
 document.querySelectorAll(".admin-only").forEach(el=>el.style.display="");
 }else{
 chip.classList.remove("admin");
-role.textContent="Educator";
+role.textContent="Associate Professor";
 role.style.color="var(--emerald)";
 document.querySelectorAll(".admin-only").forEach(el=>el.style.display="none");
 }
 updateTrialUI();
-}
-function logout(){
-LS.del("nexus.user");
-user=null;
-document.getElementById("app").style.display="none";
-document.getElementById("loginScreen").style.display="grid";
-document.getElementById("loginEmail").value="";
-document.getElementById("loginName").value="";
+renderCourses();
+renderVault();
+renderGrades();
 }
 
 /* ============ DATA ============ */
@@ -1474,7 +1415,7 @@ const GRADES=[
 function renderCourses(){
 const host=document.getElementById("coursesGrid");
 host.innerHTML=COURSES.map(c=>`
-<div class="course-card">
+<div class="course-card" onclick="toast('Opening ${esc(c.title)}...')">
 <div class="course-code">${esc(c.code)}</div>
 <div class="course-title">${esc(c.title)}</div>
 <div class="course-meta">
@@ -1494,7 +1435,7 @@ case:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3
 pdf:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>'
 };
 host.innerHTML=VAULT.map(f=>`
-<div class="folder">
+<div class="folder" onclick="toast('Opening ${esc(f.name)}...')">
 <div class="folder-head">
 <div class="folder-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${iconMap[f.icon]||iconMap.book}</svg></div>
 <div><div class="folder-name">${esc(f.name)}</div><div class="folder-count">${f.count} items</div></div>
@@ -1626,17 +1567,24 @@ t.classList.add("show");
 clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2400);
 }
 
+/* ============ THEME SWITCHER ============ */
+function setTheme(theme){
+document.documentElement.setAttribute("data-theme", theme);
+LS.set("nexus.theme", theme);
+}
+
 /* ============ INIT ============ */
 function init(){
-initTrial();
-if(user){enterApp();}
-renderCourses();
-renderVault();
-renderGrades();
+// Load user
+user = {name: "Nazeer Baloch", email: "trendcatcher299@gmail.com", loggedIn: Date.now()};
+LS.set("nexus.user", JSON.stringify(user));
 
-document.getElementById("loginBtn").addEventListener("click",handleLogin);
-document.getElementById("loginEmail").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("loginName").focus();});
-document.getElementById("loginName").addEventListener("keydown",e=>{if(e.key==="Enter")handleLogin();});
+// Load theme
+const savedTheme = LS.get("nexus.theme") || "default";
+setTheme(savedTheme);
+
+initTrial();
+enterApp();
 
 document.getElementById("megaSend").addEventListener("click",runMega);
 document.getElementById("megaInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();runMega();}});
@@ -1663,7 +1611,12 @@ input.focus();
 
 document.querySelectorAll(".side-item").forEach(b=>b.addEventListener("click",()=>{
 const sec=b.dataset.sec;
-if(sec==="logout"){logout();return;}
+if(sec==="logout"){
+    user=null;
+    LS.del("nexus.user");
+    location.reload();
+    return;
+}
 if(sec==="search"){openDrawer("search");setTimeout(()=>document.getElementById("searchInput").focus(),120);return;}
 if(sec==="providers"){openProviders();return;}
 if(sec==="admin"){
@@ -1726,7 +1679,7 @@ else{toast("Admin access required — log in as "+ADMIN.email);}
 
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer("search");closeDrawer("prov");closeDrawer("admin");}});
 }
-document.addEventListener("DOMContentLoaded",init);
+document.addEventListener("DOMContentLoaded", init);
 </script>
 </body>
 </html>
